@@ -1,9 +1,8 @@
-package net.flamgop.vme.math;
+package me.playgamesgo.vivestom.math;
 
 import net.minestom.server.coordinate.Vec;
 
 public record Quaternion(double x, double y, double z, double w) {
-
     public Quaternion(Vec vec) {
         this(vec.x(), vec.y(), vec.z(), 0);
     }
@@ -12,11 +11,16 @@ public record Quaternion(double x, double y, double z, double w) {
         this(0,0,0,1);
     }
 
-    Quaternion multiply(Quaternion q) {
+    public Quaternion multiply(Quaternion q) {
         double newX = w * q.x() + x * q.w() + y * q.z() - z * q.y();
         double newY = w * q.y() - x * q.z() + y * q.w() + z * q.x();
         double newZ = w * q.z() + x * q.y() - y * q.x() + z * q.w();
         double newW = w * q.w() - x * q.x() - y * q.y() - z * q.z();
         return new Quaternion(newX, newY, newZ, newW);
+    }
+
+    public Quaternion normalize() {
+        double length = Math.sqrt(x * x + y * y + z * z + w * w);
+        return new Quaternion(x / length, y / length, z / length, w / length);
     }
 }

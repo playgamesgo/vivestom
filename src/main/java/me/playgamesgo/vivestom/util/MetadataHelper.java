@@ -1,12 +1,13 @@
-package net.flamgop.vme.util;
+package me.playgamesgo.vivestom.util;
 
-import net.flamgop.vme.VivePlayer;
-import net.flamgop.vme.math.Quaternion;
+import me.playgamesgo.vivestom.VivePlayer;
+import me.playgamesgo.vivestom.math.Quaternion;
+import net.kyori.adventure.nbt.CompoundBinaryTag;
+import net.kyori.adventure.nbt.DoubleBinaryTag;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.Player;
 import net.minestom.server.tag.Tag;
-import org.jglrxavpok.hephaistos.nbt.NBT;
 
 import java.util.Map;
 
@@ -33,30 +34,30 @@ public class MetadataHelper {
     }
 
     public static void setQuatTag(Player player, String key, Quaternion quat) {
-        player.setTag(Tag.NBT(key), NBT.Compound(Map.of(
-                "qx", NBT.Double(quat.x()),
-                "qy", NBT.Double(quat.y()),
-                "qz", NBT.Double(quat.z()),
-                "qw", NBT.Double(quat.w())
+        player.setTag(Tag.NBT(key), CompoundBinaryTag.from(Map.of(
+                "qx", DoubleBinaryTag.doubleBinaryTag(quat.x()),
+                "qy", DoubleBinaryTag.doubleBinaryTag(quat.y()),
+                "qz", DoubleBinaryTag.doubleBinaryTag(quat.z()),
+                "qw", DoubleBinaryTag.doubleBinaryTag(quat.w())
         )));
     }
 
     public static void setDirTag(Player player, String key, Vec dir) {
-        player.setTag(Tag.NBT(key), NBT.Compound(Map.of(
-                "rx", NBT.Double(dir.x()),
-                "ry", NBT.Double(dir.y()),
-                "rz", NBT.Double(dir.z())
+        player.setTag(Tag.NBT(key), CompoundBinaryTag.from(Map.of(
+                "rx", DoubleBinaryTag.doubleBinaryTag(dir.x()),
+                "ry", DoubleBinaryTag.doubleBinaryTag(dir.y()),
+                "rz", DoubleBinaryTag.doubleBinaryTag(dir.z())
         )));
     }
 
     public static void setPosTag(Player player, String key, Pos pos) {
-        player.setTag(Tag.NBT(key), NBT.Compound(Map.of(
-                        "x", NBT.Double(pos.x()),
-                        "y", NBT.Double(pos.y()),
-                        "z", NBT.Double(pos.z()),
-                        "rx", NBT.Double(pos.direction().x()),
-                        "ry", NBT.Double(pos.direction().y()),
-                        "rz", NBT.Double(pos.direction().z())
+        player.setTag(Tag.NBT(key), CompoundBinaryTag.from(Map.of(
+                        "x", DoubleBinaryTag.doubleBinaryTag(pos.x()),
+                        "y", DoubleBinaryTag.doubleBinaryTag(pos.y()),
+                        "z", DoubleBinaryTag.doubleBinaryTag(pos.z()),
+                        "rx", DoubleBinaryTag.doubleBinaryTag(pos.direction().x()),
+                        "ry", DoubleBinaryTag.doubleBinaryTag(pos.direction().y()),
+                        "rz", DoubleBinaryTag.doubleBinaryTag(pos.direction().z())
                 )));
     }
 
