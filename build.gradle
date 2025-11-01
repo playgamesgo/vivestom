@@ -14,24 +14,48 @@ dependencies {
     implementation 'net.minestom:minestom:2025.10.31-1.21.10'
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'me.playgamesgo.vivestom'
-            artifactId = 'vivestom'
-            version = project.version
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier.set('sources')
+}
 
-            from components.java
-        }
+jar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from('src/main/resources/META-INF/services') {
+        into('META-INF/services')
     }
+}
 
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/playgamesgo/vivestom")
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = "mirageRepository"
+                url = "https://repo.mirage-play.com/releases"
+                credentials {
+                    username = System.getenv("USERNAME")
+                    password = System.getenv("TOKEN")
+                }
+                authentication {
+                    basic(BasicAuthentication)
+                }
+            }
+        }
+        publications {
+            maven(MavenPublication) {
+                groupId = group
+                artifactId = project.name
+                version = version
+                from(components.java)
+                artifact(sourceJar) {
+                    classifier "sources"
+                }
+
+                pom {
+                    name = project.name
+                    description = project.description
+                    url = "https://github.com/playgamesgo/vivestom"
+                }
             }
         }
     }
