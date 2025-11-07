@@ -2,10 +2,12 @@ package me.playgamesgo.vivestom;
 
 import me.playgamesgo.vivestom.listeners.VivecraftNetworkListener;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.entity.Player;
 import net.minestom.server.event.player.PlayerPluginMessageEvent;
 import net.minestom.server.utils.time.TimeUnit;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class ViveStom {
@@ -17,14 +19,14 @@ public class ViveStom {
     private final List<String> blockList = new ArrayList<>();
     private final VivecraftNetworkListener networkListener = new VivecraftNetworkListener(this);
     private Config config;
-    private Function<String, Boolean> permissionChecker;
+    private BiFunction<Player, String, Boolean> permissionChecker;
 
-    public static ViveStom init(Function<String, Boolean> permissionChecker) {
+    public static ViveStom init(BiFunction<Player, String, Boolean> permissionChecker) {
         if (INSTANCE != null) return INSTANCE;
         return new ViveStom(permissionChecker);
     }
 
-    public static ViveStom init(Config config, Function<String, Boolean> permissionChecker) {
+    public static ViveStom init(Config config, BiFunction<Player, String, Boolean> permissionChecker) {
         if (INSTANCE != null) {
             INSTANCE.config = config;
             return INSTANCE;
@@ -32,11 +34,11 @@ public class ViveStom {
         return new ViveStom(config, permissionChecker);
     }
 
-    private ViveStom(Function<String, Boolean> permissionChecker) {
+    private ViveStom(BiFunction<Player, String, Boolean> permissionChecker) {
         this(Config.DEFAULT_CONFIG, permissionChecker);
     }
 
-    private ViveStom(Config config, Function<String, Boolean> permissionChecker) {
+    private ViveStom(Config config, BiFunction<Player, String, Boolean> permissionChecker) {
         if (INSTANCE != null) throw new IllegalStateException("ViveStom is already enabled!");
         INSTANCE = this;
         this.config = config;
@@ -51,7 +53,7 @@ public class ViveStom {
         return this.config;
     }
 
-    public Function<String, Boolean> getPermissionChecker() {
+    public BiFunction<Player, String, Boolean> getPermissionChecker() {
         return this.permissionChecker;
     }
 

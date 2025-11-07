@@ -100,7 +100,7 @@ public class VivecraftNetworkListener {
                         byteArrayOutputStream.write(1); // climbey allowed
 
                         String mode = viveStom.getConfig().climbeyBlockMode();
-                        if (!viveStom.getPermissionChecker().apply(viveStom.getConfig().climbeyPermission())) {
+                        if (!viveStom.getPermissionChecker().apply(sender, viveStom.getConfig().climbeyPermission())) {
                             if (mode.trim().equalsIgnoreCase("include")) byteArrayOutputStream.write(1);
                             else if (mode.trim().equalsIgnoreCase("exclude")) byteArrayOutputStream.write(2);
                             else byteArrayOutputStream.write(0);
